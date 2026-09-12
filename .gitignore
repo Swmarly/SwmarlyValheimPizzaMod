@@ -1,0 +1,4 @@
+bin/
+obj/
+Package/BepInEx/
+.codex/

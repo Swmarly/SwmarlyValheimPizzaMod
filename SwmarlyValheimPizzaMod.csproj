@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>SwmarlyValheimPizzaMod</RootNamespace>
+    <AssemblyName>SwmarlyValheimPizzaMod</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugType>pdbonly</DebugType>
+    <DefineConstants>TRACE</DefineConstants>
+    <ValheimPath Condition="'$(ValheimPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Valheim</ValheimPath>
+    <ValheimManaged>$(ValheimPath)\valheim_Data\Managed</ValheimManaged>
+    <BepInExPath Condition="'$(BepInExPath)' == ''">$(ValheimPath)\BepInEx</BepInExPath>
+    <JotunnVersion>2.30.0</JotunnVersion>
+    <Version>1.0.0</Version>
+    <Authors>Swmarly</Authors>
+    <Description>Complete pizza cooking, tomato farming, lox milking, and Stone Oven recipes for Valheim 1.0.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JotunnLib" Version="$(JotunnVersion)" />
+  </ItemGroup>
+
+  <Target Name="ValidateValheimReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(ValheimManaged)\assembly_valheim.dll')" Text="Valheim 1.0 game references were not found. Build with /p:ValheimPath=path-to-Valheim." />
+    <Error Condition="!Exists('$(BepInExPath)\core\BepInEx.dll')" Text="BepInEx references were not found. Install BepInExPack_Valheim or pass /p:BepInExPath=path-to-BepInEx." />
+  </Target>
+
+  <Target Name="CopyPackageFiles" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <MakeDir Directories="$(MSBuildProjectDirectory)\Package\BepInEx\plugins\SwmarlyValheimPizzaMod" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\Package\BepInEx\plugins\SwmarlyValheimPizzaMod" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(MSBuildProjectDirectory)\Package\BepInEx\plugins\SwmarlyValheimPizzaMod" Condition="Exists('$(TargetDir)$(TargetName).pdb')" />
+  </Target>
+</Project>

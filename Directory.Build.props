@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <ValheimPath Condition="'$(ValheimPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Valheim</ValheimPath>
+    <BepInExPath Condition="'$(BepInExPath)' == ''">$(ValheimPath)\BepInEx</BepInExPath>
+    <ValheimManaged Condition="'$(ValheimManaged)' == ''">$(ValheimPath)\valheim_Data\Managed</ValheimManaged>
+
+    <!-- Feed Jötunn's current publicized-assembly build task using the same paths. -->
+    <VALHEIM_INSTALL Condition="'$(VALHEIM_INSTALL)' == ''">$(ValheimPath)</VALHEIM_INSTALL>
+    <BEPINEX_PATH Condition="'$(BEPINEX_PATH)' == ''">$(BepInExPath)</BEPINEX_PATH>
+    <VALHEIM_MANAGED Condition="'$(VALHEIM_MANAGED)' == ''">$(ValheimManaged)</VALHEIM_MANAGED>
+    <ExecutePrebuild Condition="'$(ExecutePrebuild)' == ''">true</ExecutePrebuild>
+  </PropertyGroup>
+</Project>
