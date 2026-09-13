@@ -92,4 +92,6 @@ The generated BepInEx config exposes ingredient costs, Lox cooldown and yield, S
 
 The implementation reuses vanilla Bread Dough, carrot crop, seed crop, and Lox Pie visuals where practical. Asset lookup is isolated in `AssetRegistry` so custom tomato, milk, cheese, and pizza art can be substituted later without changing gameplay registration. Missing optional cosmetic assets do not prevent the core content from loading.
 
+The current test build also generates low-poly 3D models at runtime for every custom ingredient and pizza. Pizzas share one reusable base mesh with cooked/uncooked materials and recipe-specific topping colors. These models require no external Unity AssetBundle and can later be replaced by custom meshes in the same isolated asset layer.
+
 Jötunn is a hard dependency because it provides current prefab, item, piece, localization, cooking-conversion, and multiplayer registration APIs. The plugin is marked as requiring the same mod on all clients and the server. Lox cooldowns and rewards are server-authoritative; crop and oven state use vanilla synchronized systems.

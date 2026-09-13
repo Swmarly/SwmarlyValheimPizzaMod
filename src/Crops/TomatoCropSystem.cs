@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using HarmonyLib;
 using Jotunn.Configs;
 using Jotunn.Entities;
 using Jotunn.Managers;
 using Jotunn.Utils;
 using SwmarlyValheimPizzaMod.Assets;
+using SwmarlyValheimPizzaMod.Config;
+using SwmarlyValheimPizzaMod.Items;
 using UnityEngine;
 
 namespace SwmarlyValheimPizzaMod.Crops

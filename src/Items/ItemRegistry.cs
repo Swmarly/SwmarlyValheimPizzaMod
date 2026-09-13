@@ -4,6 +4,7 @@ using Jotunn.Configs;
 using Jotunn.Entities;
 using Jotunn.Managers;
 using SwmarlyValheimPizzaMod.Assets;
+using SwmarlyValheimPizzaMod.Config;
 using UnityEngine;
 
 namespace SwmarlyValheimPizzaMod.Items
@@ -129,8 +130,8 @@ namespace SwmarlyValheimPizzaMod.Items
                 item =>
                 {
                     MakeNonFood(item);
-                    item.m_shared.m_itemType = ItemDrop.ItemData.ItemType.Tool;
-                    item.m_shared.m_maxStackSize = 1;
+                    item.m_itemType = ItemDrop.ItemData.ItemType.Tool;
+                    item.m_maxStackSize = 1;
                 });
         }
 
@@ -203,6 +204,7 @@ namespace SwmarlyValheimPizzaMod.Items
                 }
 
                 configure(drop.m_itemData.m_shared);
+                GeneratedModelFactory.ApplyIngredient(prefab, name);
                 Prefabs.Add(name, prefab);
                 PizzaPlugin.Log.LogInfo("Registered item " + name + " from " + basePrefab + ".");
                 return prefab;

@@ -20,10 +20,10 @@ namespace SwmarlyValheimPizzaMod
     {
         internal const string Guid = "com.swmarly.valheimpizzamod";
         internal const string Name = "Swmarly Valheim Pizza Mod";
-        internal const string Version = "1.0.0";
+        internal const string Version = "1.0.1";
 
         internal static ManualLogSource Log = null!;
-        internal static ConfigFile Config = null!;
+        internal static ConfigFile ModConfig = null!;
         internal static PizzaConfiguration Configuration = null!;
         internal static CustomLocalization Localization = null!;
 
@@ -32,8 +32,8 @@ namespace SwmarlyValheimPizzaMod
         private void Awake()
         {
             Log = Logger;
-            Config = base.Config;
-            Configuration = new PizzaConfiguration(Config);
+            ModConfig = base.Config;
+            Configuration = new PizzaConfiguration(ModConfig);
             Localization = PizzaLocalization.Register();
             LoxMilkingSystem.Initialize();
             PrefabManager.OnVanillaPrefabsAvailable += RegisterContent;

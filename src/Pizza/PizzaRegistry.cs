@@ -5,6 +5,8 @@ using Jotunn.Entities;
 using Jotunn.Managers;
 using SwmarlyValheimPizzaMod.Assets;
 using SwmarlyValheimPizzaMod.Config;
+using SwmarlyValheimPizzaMod.Items;
+using SwmarlyValheimPizzaMod.Localization;
 using UnityEngine;
 
 namespace SwmarlyValheimPizzaMod.Pizza
@@ -92,6 +94,8 @@ namespace SwmarlyValheimPizzaMod.Pizza
 
             ConfigureUncooked(uncooked.ItemPrefab);
             ConfigureFinished(cooked.ItemPrefab, definition, stats);
+            GeneratedModelFactory.ApplyPizza(uncooked.ItemPrefab, definition.Id, false);
+            GeneratedModelFactory.ApplyPizza(cooked.ItemPrefab, definition.Id, true);
             RegisterStoneOvenConversion(uncookedName, cookedName, configuration.StoneOvenCookTimeSeconds.Value);
 
             PizzaPlugin.Log.LogInfo("Registered " + definition.Name + ", including Food Preparation Table recipe and Stone Oven conversion.");
@@ -159,7 +163,7 @@ namespace SwmarlyValheimPizzaMod.Pizza
             string section = "Pizza - " + definition.Name;
             return new PizzaStats
             {
-                Values = new PizzaFoodConfiguration(PizzaPlugin.Config, section, definition.Health, definition.Stamina, definition.Eitr, definition.Healing, definition.Duration)
+                Values = new PizzaFoodConfiguration(PizzaPlugin.ModConfig, section, definition.Health, definition.Stamina, definition.Eitr, definition.Healing, definition.Duration)
             };
         }
 

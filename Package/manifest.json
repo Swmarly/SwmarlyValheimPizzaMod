@@ -1,6 +1,6 @@
 {
   "name": "SwmarlyValheimPizzaMod",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/Swmarly/SwmarlyValheimPizzaMod",
   "description": "Tomato farming, Lox milking, and pizza cooking using the vanilla Food Preparation Table and Stone Oven.",
   "dependencies": [

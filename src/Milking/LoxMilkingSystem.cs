@@ -44,9 +44,9 @@ namespace SwmarlyValheimPizzaMod.Milking
         [HarmonyPatch(typeof(Tameable), nameof(Tameable.Interact))]
         private static class TameableInteractPatch
         {
-            private static bool Prefix(Tameable __instance, Humanoid character, bool hold, bool alt, ref bool __result)
+            private static bool Prefix(Tameable __instance, Humanoid __0, bool hold, bool alt, ref bool __result)
             {
-                if (hold || alt || !(character is Player player) || !IsHoldingMilker(player))
+                if (hold || alt || !(__0 is Player player) || !IsHoldingMilker(player))
                 {
                     return true;
                 }
@@ -103,12 +103,14 @@ namespace SwmarlyValheimPizzaMod.Milking
             {
                 ZDOID targetId = package.ReadZDOID();
                 ZNetPeer? peer = ZNet.instance.m_peers.FirstOrDefault(candidate => candidate.m_uid == sender);
-                ZNetView? playerView = peer == null ? null : ZNetScene.instance.FindInstance(peer.m_characterID);
+                GameObject? playerObject = peer == null ? null : ZNetScene.instance.FindInstance(peer.m_characterID);
+                ZNetView? playerView = playerObject == null ? null : playerObject.GetComponent<ZNetView>();
                 Player? player = playerView == null ? null : playerView.GetComponent<Player>();
-                ZNetView? targetView = ZNetScene.instance.FindInstance(targetId);
+                GameObject? targetObject = ZNetScene.instance.FindInstance(targetId);
+                ZNetView? targetView = targetObject == null ? null : targetObject.GetComponent<ZNetView>();
                 Tameable? tameable = targetView == null ? null : targetView.GetComponent<Tameable>();
 
-                if (player == null || tameable == null || !IsLox(targetView!.gameObject))
+                if (player == null || targetView == null || tameable == null || !IsLox(targetView.gameObject))
                 {
                     result = Result.InvalidTarget;
                 }
@@ -116,7 +118,7 @@ namespace SwmarlyValheimPizzaMod.Milking
                 {
                     result = Result.MissingTool;
                 }
-                else if (!tameable.m_tamed)
+                else if (!tameable.IsTamed())
                 {
                     result = Result.Untamed;
                 }
@@ -127,8 +129,8 @@ namespace SwmarlyValheimPizzaMod.Milking
                 else
                 {
                     ZDO zdo = targetView.GetZDO();
-                    double now = ZNet.instance.GetTimeSeconds();
-                    double lastMilk = zdo.GetDouble(CooldownKey, double.MinValue);
+                    long now = (long)Math.Floor(ZNet.instance.GetTimeSeconds());
+                    long lastMilk = zdo.GetLong(CooldownKey, long.MinValue);
                     double cooldown = Math.Max(0f, PizzaPlugin.Configuration.MilkingCooldownMinutes.Value) * 75.0;
 
                     if (now - lastMilk < cooldown)
@@ -209,7 +211,7 @@ namespace SwmarlyValheimPizzaMod.Milking
                     continue;
                 }
 
-                object?[] arguments = BuildAddItemArguments(parameters, player, amount);
+                object?[]? arguments = BuildAddItemArguments(parameters, player, amount);
                 if (arguments == null)
                 {
                     continue;
